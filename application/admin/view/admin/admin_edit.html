@@ -1,0 +1,268 @@
+{extend name="public/basis" /}
+{block name="seo"}
+<title>{$title|default='页面标题'}</title>
+<meta name="keywords" content="{$keywords|default='页面关键字'}">
+<meta name="description" content="{$description|default='页面描述'}">
+</head>
+<body>
+{/block}
+{block name="content"}
+	<nav class="breadcrumb">
+		<i class="Hui-iconfont">&#xe67f;</i> 首页 
+		<span class="c-gray en">&gt;</span> 管理员管理 
+		<span class="c-gray en">&gt;</span> 管理员编辑 
+		<a class="btn btn-success radius r" style="line-height:1.6em;margin-top:3px" href="javascript:location.replace(location.href);" title="刷新" >
+			<i class="Hui-iconfont">&#xe68f;</i>
+		</a>
+	</nav>
+	<div class="Hui-article">
+		<article class="cl pd-20">
+			<form action="" method="post" class="form form-horizontal" id="form-admin-add">
+				<div class="row cl">
+					<label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>管理员：</label>
+					<div class="formControls col-xs-8 col-sm-9">
+
+						{eq name="$admin_info.username" value="admin"} 
+						<!--如果用户名是admin,不允许修改-->
+						<input  type="text" class="input-text disabled" value="{$admin_info.username}" placeholder="" id="username" name="username">
+						{else /}
+						{eq name="$Think.session.admin_info.username" value="$admin_info.username" }
+						<input  type="text" class="input-text disabled" value="{$admin_info.username}" placeholder="" id="username" name="username">
+						{else /}
+						<input  type="text" class="input-text" value="{$admin_info.username}" placeholder="" id="username" name="username">
+						{/eq}
+						{/eq}
+
+					</div>
+				</div>
+				{eq name="$Think.session.admin_info.username" value="admin" }
+				<div class="row cl">
+					<label class="form-label col-xs-4 col-sm-3"><span class="c-red"></span>新密码：</label>
+					<div class="formControls col-xs-8 col-sm-9">
+						<input type="text" class="input-text" autocomplete="off" value=""  placeholder="密码为3-16位" id="password" name="password">
+					</div>
+				</div>
+				{else /}
+					{eq name="$Think.session.admin_info.permissions" value="0"}
+						{eq name="$admin_info.permissions" value="0" }
+							{eq name="$Think.session.admin_info.username" value="$admin_info.username"}
+								<div class="row cl">
+									<label class="form-label col-xs-4 col-sm-3"><span class="c-red"></span>新密码：</label>
+									<div class="formControls col-xs-8 col-sm-9">
+										<input type="text" class="input-text" autocomplete="off" value=""  placeholder="密码为6位" id="password" name="password">
+									</div>
+								</div>
+							{/eq}
+						{else /}
+							<div class="row cl">
+								<label class="form-label col-xs-4 col-sm-3"><span class="c-red"></span>新密码：</label>
+								<div class="formControls col-xs-8 col-sm-9">
+									<input type="text" class="input-text" autocomplete="off" value=""  placeholder="密码为6位" id="password" name="password">
+								</div>
+							</div>
+						{/eq}
+					{else /}
+						{eq name="$Think.session.admin_info.username" value="$admin_info.username"}
+							<div class="row cl">
+								<label class="form-label col-xs-4 col-sm-3"><span class="c-red"></span>新密码：</label>
+								<div class="formControls col-xs-8 col-sm-9">
+									<input type="text" class="input-text" autocomplete="off" value=""  placeholder="密码为6位" id="password" name="password">
+								</div>
+							</div>
+						{/eq}
+					{/eq}
+				{/eq}
+
+				{eq name="$Think.session.admin_info.permissions" value="0"}
+				<div class="row cl">
+					<label class="form-label col-xs-4 col-sm-3">启用状态：</label>
+					<div class="formControls col-xs-8 col-sm-9"> <span class="select-box" style="width:150px;">
+						<select class="select" name="status" size="1">
+
+							{eq name="$Think.session.admin_info.username" value="admin"}
+								{eq name="$admin_info.username" value="admin"}
+								<option value="1" selected>启用</option>
+								{else /}
+								<option value="0" >不启用</option>
+			                    <option value="1" selected>启用</option>
+								{/eq}
+							{else /}
+								{eq name="$admin_info.permissions" value="0"}
+									<option value="1" selected>启用</option>
+								{else /}
+									<option value="0" >不启用</option>
+			                    	<option value="1" selected>启用</option>
+			                    {/eq}
+			                {/eq}
+
+						</select>
+						</span>
+					</div>
+				</div>
+				{/eq}
+
+				<div class="row cl">
+					<label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>邮箱：</label>
+					<div class="formControls col-xs-8 col-sm-9">
+						<input type="text" class="input-text" placeholder="@" name="email" id="email" value="{$admin_info.email}">
+					</div>
+				</div>
+
+				{eq name="$Think.session.admin_info.permissions" value="0"}
+				<div class="row cl">
+					<label class="form-label col-xs-4 col-sm-3">角色：</label>
+					<div class="formControls col-xs-8 col-sm-9"> <span class="select-box" style="width:150px;">
+						<select class="select" name="permissions" size="1">
+							{eq name="$Think.session.admin_info.username" value="admin"}
+								{eq name="$admin_info.username" value="admin"}
+								<option value="0" >超级管理员</option>
+								{else /}
+								<option value="1" selected>管理员</option>
+			                    <option value="0" >超级管理员</option>
+								{/eq}
+							{else /}
+								{eq name="$admin_info.permissions" value="0"}
+									<option value="0" >超级管理员</option>
+								{else /}
+									<option value="1" selected>管理员</option>
+			                    	<option value="0" >超级管理员</option>
+			                    {/eq}
+			                {/eq}
+						</select>
+						</span>
+					</div>
+				</div>
+				{/eq}
+
+				<!--将当前记录的id做为隐藏域发送到服务器-->
+				<input type="hidden" value="{$admin_info.id}" name="id">
+
+				<div class="row cl">
+					<div class="col-xs-8 col-sm-9 col-xs-offset-4 col-sm-offset-3">
+						<input class="btn btn-primary radius disabled" type="button" value="&nbsp;&nbsp;提交&nbsp;&nbsp;" id="submit" >
+					</div>
+				</div>
+			</form>
+		</article>
+		<footer class="footer">
+			<p>感谢jQuery、layer、laypage、Validform、UEditor、My97DatePicker、iconfont、Datatables、WebUploaded、icheck、highcharts、bootstrap-Switch<br> Copyright &copy;2015 H-ui.admin v3.0 All Rights Reserved.<br> 本后台系统由<a href="http://www.h-ui.net/" target="_blank" title="H-ui前端框架">H-ui前端框架</a>提供前端技术支持</p>
+		</footer>
+	</div>
+{/block}
+
+{block name="javascript"}
+<!--请在下方写此页面业务相关的脚本-->
+<script type="text/javascript" src="__STATIC__/lib/jquery.validation/1.14.0/jquery.validate.js"></script> 
+<script type="text/javascript" src="__STATIC__/lib/jquery.validation/1.14.0/validate-methods.js"></script> 
+<script type="text/javascript" src="__STATIC__/lib/jquery.validation/1.14.0/messages_zh.js"></script>
+
+<script>
+	$(function(){
+	    $("form").children().change(function(){
+	        $("#submit").removeClass('disabled');
+		});
+
+	    //unchage,不能修改
+	    function unchage() {
+	    	layer.msg('你的用户名不能修改！',{icon:0,time:2000});
+        	setTimeout('location.replace(location.href)',2000);
+	    }
+	    
+	    //chage，提交修改
+	    function chage(){
+	    	$.ajax({
+				type: "POST",
+				url: "{:url('/admin/admin/editAdmin')}",
+				data: $("#form-admin-add").serialize(),
+				dataType: "json",
+				success: function(data){
+					if (data.status == 1) {
+						layer.msg(data.message,{icon:1,time:2000});
+						setTimeout('window.parent.location.reload()',2000);
+					} else {
+			            layer.msg(data.message,{icon:0,time:2000});
+					}
+				}
+			});
+	    }
+
+	    //初始化，记录用户名和邮箱是否可用
+	    var res = 2;
+	    var ret = 2;
+
+	    //失去焦点时,检查用户名是否重复
+	    $("#username").bind("input propertychange",function(){
+	            $.ajax({
+	                type: 'GET',
+	                url: "{:url('/admin/admin/checkAdminName')}",
+	               data:{username:$(this).val()},
+	                dataType: 'json',
+	                success: function(data){
+	                    if (data.status == 1) {
+	                       	layer.msg(data.message,{icon:1,time:2000});
+	                    } else {
+	                        layer.msg(data.message,{icon:0,time:2000});
+	                    }
+	                    ret = data.status;
+	                }
+	            });
+	        });	
+
+        //失去焦点时,检查邮箱是否重复
+	        $("#email").bind("input propertychange",function(){
+	            $.ajax({
+	                type: 'GET',
+	                url: "{:url('/admin/admin/checkAdminEmail')}",
+	                data:{email:$(this).val()},
+	                dataType: 'json',
+	                success: function(data){
+	                    if (data.status == 1) {
+	                    	layer.msg(data.message,{icon:1,time:2000});
+	                    } else {
+	                        layer.msg(data.message,{icon:0,time:2000});
+	                    }
+	                    res = data.status;
+	                }
+	            });
+	        });
+
+        $("#submit").on("click", function(event){
+        	var chage_name = $('#username').val();
+        	var status = $('#status').val();
+        	var email = $('#email').val();
+        	if ((chage_name=='')||(status=='')||(email=='')) {
+        		layer.msg('信息不能为空，请检查！',{icon:0,time:2000});
+        		return;
+        	}
+        	var he_name = '{$admin_info.username}';
+        	var you_name = '{$Think.session.admin_info.username}';
+        	//修改自己信息
+        	if (you_name == he_name) {
+        		//修改自己用户名
+        		if (chage_name != he_name) {
+        			unchage();
+        		} 
+        		//修改自己其他信息
+        		else {
+					if (res !== 0) {
+	        			chage();
+	        		} else {
+	        			layer.msg('该邮箱已存在，请检查！',{icon:0,time:2000});
+	        		}
+        		}
+        	} 
+        	//修改管理员信息
+        	else {
+        		if ((res !== 0)&&(ret !== 0)) {
+        			chage();
+        		} else {
+        			layer.msg('该用户名或者邮箱已存在，请检查！',{icon:0,time:2000});
+        		}
+        	}
+		});
+	});
+</script>
+{/block}
+
+</body>
+</html>

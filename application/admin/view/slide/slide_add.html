@@ -1,0 +1,134 @@
+{extend name="public/basis" /}
+{block name="seo"}
+<title>{$title|default='页面标题'}</title>
+<meta name="keywords" content="{$keywords|default='页面关键字'}">
+<meta name="description" content="{$description|default='页面描述'}">
+<link rel="stylesheet" type="text/css" href="__STATIC__/lib/webuploader/webuploader/webuploader.css">
+<link rel="stylesheet" type="text/css" href="__STATIC__/static/h-ui.admin/css/slide.css">
+</head>
+<body>
+{/block}
+{block name="content"}
+	<nav class="breadcrumb">
+		<i class="Hui-iconfont">&#xe67f;</i> 首页 
+		<span class="c-gray en">&gt;</span> 幻灯片管理 
+		<span class="c-gray en">&gt;</span> 幻灯片添加 
+		<a class="btn btn-success radius r" style="line-height:1.6em;margin-top:3px" href="javascript:location.replace(location.href);" title="刷新" >
+			<i class="Hui-iconfont">&#xe68f;</i>
+		</a>
+	</nav>
+	<div class="Hui-article">
+			<div class="rt_content">
+			    <div class="page_title">
+			       <a href="/easyto/public/index.php/admin/slide/slide_list" class="fr top_rt_btn">返回幻灯片列表</a>
+			    </div>
+			    <section>
+				    <form method="POST" class="form">
+			      		<ul class="ulColumn2">
+			       			<li>
+			        			<span class="item_name" style="width:120px;">幻灯片名称：</span>
+			        			<input type="text" name="slide_title" id="slide_title" class="textbox" placeholder="幻灯片名称..."/>
+			       			</li>
+			       			<li>
+						        <span class="item_name" style="width:120px;">幻灯片顺序：</span>
+						        <input type="text" name="slide_order" id="slide_order" class="textbox" placeholder="幻灯片顺序..."/>
+					       	</li>
+			       			<li>
+						        <span class="item_name" style="width:120px;">是否展示：</span>
+						        <label class="single_selection"><input type="radio" value="1" name="is_show" id="is_show" />是</label>
+						        <label class="single_selection"><input type="radio" value="0" checked name="is_show" id="is_show" />否</label>
+					       	</li>
+					       	<li>
+						        <span class="item_name" style="width:120px;">上传幻灯片：</span>
+						        <label id="picker">选择文件</label>
+								<input type="hidden" name="slide_url" id="slide_url" value="">
+								<img id="slide" style="width:200px;height:120px"  src="" />
+					       	</li>
+							<li>
+						        <span class="item_name" style="width:120px;">操作：</span>
+						        <input type="button" class="link_btn" id="button" value="提交" />
+					       	</li>
+			      		</ul>
+			      	</form>
+			    </section>
+			</div>
+		<footer class="footer">
+			<p>感谢jQuery、layer、laypage、Validform、UEditor、My97DatePicker、iconfont、Datatables、WebUploaded、icheck、highcharts、bootstrap-Switch<br> Copyright &copy;2015 H-ui.admin v3.0 All Rights Reserved.<br> 本后台系统由<a href="http://www.h-ui.net/" target="_blank" title="H-ui前端框架">H-ui前端框架</a>提供前端技术支持</p>
+		</footer>
+	</div>
+{/block}
+
+{block name="javascript"}
+<script type="text/javascript" src="__STATIC__/lib/webuploader/webuploader/webuploader.min.js"></script>
+<script type="text/javascript">
+$(function(){
+	$("#button").on('click',function(event){
+		var slide_title = $("#slide_title").val().trim();
+		var slide_order = $("#slide_order").val().trim();
+		var slide_url = $("#slide_url").val().trim();
+		if (slide_title&&slide_url&&slide_order) {
+			if(!(/(^[1-9]\d*$)/.test(slide_order))) {
+				layer.msg('幻灯片顺序请输入正整数！',{icon:0,time:2000});
+				return;
+			}
+			$.ajax({
+				type:"POST",
+				url:"{:url('/admin/slide/addSlide')}",
+				data:$("form").serialize(),
+				dataType: "json",
+				success:function(data) {
+					layer.msg(data.message,{icon:1,time:2000});
+					setTimeout('location.replace("/easyto/public/index.php/admin/slide/slide_list")',2000);
+				},
+				error:function() {
+					slide_title = '';
+					slide_order = '';
+					layer.msg('添加失败！',{icon:0,time:2000});
+				}
+			});
+		} else {
+			layer.msg('请把信息填完整！',{icon:0,time:2000});
+		}
+	});
+});
+</script>
+<script>
+// 初始化Web Uploader
+var uploader = WebUploader.create({
+
+    // 选完文件后，是否自动上传。
+    auto: true,
+
+    // swf文件路径
+    swf: "__STATIC__/lib/webuploader/Uploader.swf",
+
+    // 文件接收服务端。
+    server: "{:url('/admin/slide/uploads')}",
+
+    // 选择文件的按钮。可选。
+    // 内部根据当前运行是创建，可能是input元素，也可能是flash.
+    pick: '#picker',
+
+    // 只允许选择图片文件。
+    accept: {
+        title: 'Images',
+        extensions: 'gif,jpg,jpeg,bmp,png',
+        mimeTypes: 'image/*'
+    }
+});
+
+// 文件上传成功，给item添加成功class, 用样式标记上传成功。data为后台上传返回的参数
+uploader.on( 'uploadSuccess', function( file ,data) {
+	$('#slide').attr('src',data.slide_url);
+	$('#slide_url').val(data.slide_url);
+});
+
+//一般进不来，不用处理
+uploader.on( 'uploadError', function( file,data ) {
+    
+});
+</script>
+{/block}
+
+</body>
+</html>

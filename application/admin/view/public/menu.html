@@ -1,0 +1,84 @@
+<!--_menu 作为公共模版分离出去-->
+<aside class="Hui-aside">
+	<div class="menu_dropdown bk_2">
+	<dl id="menu-admin">
+			<dt><i class="Hui-iconfont">&#xe62d;</i> 管理员管理<i class="Hui-iconfont menu_dropdown-arrow">&#xe6d5;</i></dt>
+			<dd>
+				<ul>
+					<li><a data-href="/easyto/public/index.php/admin/admin/admin_list.html" data-title="管理员列表" href="javascript:void(0)">管理员列表</a></li>
+					{eq name="$Think.session.admin_info.permissions" value="0"}
+					<li><a data-href="/easyto/public/index.php/admin/admin/admin_add.html" data-title="管理员添加" href="javascript:void(0)">管理员添加</a></li>
+					{/eq}
+				</ul>
+			</dd>
+		</dl>
+		<dl id="menu-picture">
+			<dt><i class="Hui-iconfont">&#xe613;</i> 幻灯片管理<i class="Hui-iconfont menu_dropdown-arrow">&#xe6d5;</i></dt>
+			<dd>
+				<ul>
+					<li><a data-href="/easyto/public/index.php/admin/slide/slide_list.html" data-title="幻灯片列表" href="javascript:void(0)">幻灯片列表</a></li>
+					<li><a data-href="/easyto/public/index.php/admin/slide/slide_add.html" data-title="幻灯片添加" href="javascript:void(0)">幻灯片添加</a></li>
+				</ul>
+			</dd>
+		</dl>
+		<dl id="menu-product">
+			<dt><i class="Hui-iconfont">&#xe620;</i> 商品管理<i class="Hui-iconfont menu_dropdown-arrow">&#xe6d5;</i></dt>
+			<dd>
+				<ul>
+					<li><a data-href="/easyto/public/index.php/admin/goods/new_product.html" data-title="最新商品" href="javascript:void(0)">最新商品</a></li>
+					<li><a data-href="/easyto/public/index.php/admin/goods/commodity_audit.html" data-title="商品审核" href="javascript:void(0)">商品审核</a></li>
+					<li><a data-href="/easyto/public/index.php/admin/goods/goods_life.html" data-title="生活商品" href="javascript:void(0)">生活商品</a></li>
+					<li><a data-href="/easyto/public/index.php/admin/goods/goods_sports.html" data-title="体育商品" href="javascript:void(0)">体育商品</a></li>
+					<li><a data-href="/easyto/public/index.php/admin/goods/goods_books.html" data-title="书籍商品" href="javascript:void(0)">书籍商品</a></li>
+					<li><a data-href="/easyto/public/index.php/admin/goods/goods_electronic.html" data-title="电子商品" href="javascript:void(0)">电子商品</a></li>
+					<li><a data-href="/easyto/public/index.php/admin/goods/goods_other.html" data-title="其他商品" href="javascript:void(0)">其他商品</a></li>
+				</ul>
+			</dd>
+		</dl>
+		<dl id="menu-member">
+			<dt><i class="Hui-iconfont">&#xe60d;</i> 用户管理<i class="Hui-iconfont menu_dropdown-arrow">&#xe6d5;</i></dt>
+			<dd>
+				<ul>
+					<li><a data-href="/easyto/public/index.php/admin/user/user_list.html" data-title="用户列表" href="javascript:;">用户列表</a></li>
+				</ul>
+			</dd>
+		</dl>
+		<dl id="menu-says">
+			<dt><i class="Hui-iconfont">&#xe60d;</i> 书圈管理<i class="Hui-iconfont menu_dropdown-arrow">&#xe6d5;</i></dt>
+			<dd>
+				<ul>
+					<li><a data-href="/easyto/public/index.php/admin/say/say_list.html" data-title="说说列表" href="javascript:;">说说列表</a></li>
+				</ul>
+			</dd>
+		</dl>
+		<dl id="menu-comments">
+			<dt><i class="Hui-iconfont">&#xe622;</i> 评论管理<i class="Hui-iconfont menu_dropdown-arrow">&#xe6d5;</i></dt>
+			<dd>
+				<ul>
+					<li><a data-href="/easyto/public/index.php/admin/talk/comment_list.html" data-title="评论列表" href="javascript:;">评论列表</a></li>
+				</ul>
+			</dd>
+		</dl>
+		<dl id="menu-about">
+			<dt><i class="Hui-iconfont">&#xe622;</i> 小程序版本信息管理<i class="Hui-iconfont menu_dropdown-arrow">&#xe6d5;</i></dt>
+			<dd>
+				<ul>
+					<li><a data-href="/easyto/public/index.php/admin/about/about_list.html" data-title="小程序版本信息列表" href="javascript:;">小程序版本信息列表</a></li>
+					{eq name="$Think.session.admin_info.permissions" value="0"}
+					<li><a data-href="/easyto/public/index.php/admin/about/about_add.html" data-title="小程序版本信息添加" href="javascript:void(0)">小程序版本信息添加</a></li>
+					{/eq}
+				</ul>
+			</dd>
+		</dl>
+		<dl id="menu-advice">
+			<dt><i class="Hui-iconfont">&#xe622;</i> 意见箱管理<i class="Hui-iconfont menu_dropdown-arrow">&#xe6d5;</i></dt>
+			<dd>
+				<ul>
+					<li><a data-href="/easyto/public/index.php/admin/advice/advice_list.html" data-title="意见箱列表" href="javascript:;">意见箱列表</a></li>
+				</ul>
+			</dd>
+		</dl>
+	</div>
+</aside>
+<div class="dislpayArrow hidden-xs"><a class="pngfix" href="javascript:void(0);" onClick="displaynavbar(this)"></a></div>
+<!--/_menu 作为公共模版分离出去-->

@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>开始使用layer</title>
+  <!-- 你必须先引入jQuery1.8或以上版本  --> 
+  <script src="https://cdn.bootcss.com/jquery/3.1.1/jquery.min.js"></script>
+
+	<!--引入CSS-->
+	<link rel="stylesheet" type="text/css" href="webuploader.css">
+	<!--引入JS-->
+	<script type="text/javascript" src="webuploader.min.js"></script>
+</head>
+<body>
+
+<div >
+   <div id="picker">选择文件</div>
+</div>
+
+<script>
+// 初始化Web Uploader
+var uploader = WebUploader.create({
+
+    // 选完文件后，是否自动上传。
+    auto: true,
+
+    // swf文件路径
+    swf: "Uploader.swf",
+
+    // 文件接收服务端。
+    server: "up.php",
+
+    // 选择文件的按钮。可选。
+    // 内部根据当前运行是创建，可能是input元素，也可能是flash.
+    pick: '#picker',
+
+    // 只允许选择图片文件。
+    accept: {
+        title: 'Images',
+        extensions: 'gif,jpg,jpeg,bmp,png',
+        mimeTypes: 'image/*'
+    }
+});
+
+// 文件上传成功，给item添加成功class, 用样式标记上传成功。data为后台上传返回的参数
+uploader.on( 'uploadSuccess', function( file ,data) {
+       
+});
+
+//一般进不来，不用处理
+uploader.on( 'uploadError', function( file,data ) {
+    
+});
+</script>
+</body>
+</html>

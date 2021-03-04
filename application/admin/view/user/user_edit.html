@@ -1,0 +1,154 @@
+{extend name="public/basis" /}
+{block name="seo"}
+<title>{$title|default='页面标题'}</title>
+<meta name="keywords" content="{$keywords|default='页面关键字'}">
+<meta name="description" content="{$description|default='页面描述'}">
+<link rel="stylesheet" type="text/css" href="__STATIC__/lib/webuploader/webuploader/webuploader.css">
+<link rel="stylesheet" type="text/css" href="__STATIC__/static/h-ui.admin/css/slide.css">
+</head>
+<body>
+{/block}
+{block name="content"}
+	<nav class="breadcrumb">
+		<i class="Hui-iconfont">&#xe67f;</i> 首页 
+		<span class="c-gray en">&gt;</span> 用户管理 
+		<span class="c-gray en">&gt;</span> 用户列表 
+		<a class="btn btn-success radius r" style="line-height:1.6em;margin-top:3px" href="javascript:location.replace(location.href);" title="刷新" >
+			<i class="Hui-iconfont">&#xe68f;</i>
+		</a>
+	</nav>
+	<div class="Hui-article">
+		<article class="cl pd-20">
+			<div class="rt_content">
+     			<section>
+	     			<form method="POST">
+		     			<input type="hidden" name="id" value="{$user.id}">
+      					<ul class="ulColumn2">
+       						<li>
+        						<span class="item_name" style="width:120px;">用户名：</span>
+								<input type="text" name="nick_name"  id="nick_name" value="{$user.nick_name}" class="textbox" placeholder="用户名..."/>
+       						</li>
+       						<li>
+        						<span class="item_name" style="width:120px;">头像：</span>
+        						<label id="picker">选择文件</label>
+								<input type="hidden" id="avatar_url" name="avatar_url" value="{$user.avatar_url}">
+								<img id="user" style="width:100px;height:100px"  src="{$user.avatar_url}" />
+       						</li>
+       						<li>
+        						<span class="item_name" style="width:120px;">联系人：</span>
+								<input type="text" name="linkman" id="linkman" value="{$user.linkman}" class="textbox" />
+       						</li>
+       						<li>
+        						<span class="item_name" style="width:120px;">微信号：</span>
+								<input type="text" name="wechat_number" id="wechat_number" value="{$user.wechat_number}" class="textbox" />
+       						</li>
+       						<li>
+        						<span class="item_name" style="width:120px;">手机号：</span>
+								<input type="text" name="phone_number" id="phone_number" value="{$user.phone_number}" class="textbox" />
+       						</li>
+      			 			<li>
+        						<span class="item_name" style="width:120px;">open_id：</span>
+								<input type="text" name="open_id" id="open_id" value="{$user.open_id}" class="textbox" />
+       						</li>
+       						<li>
+        						<span class="item_name" style="width:120px;">session_key：</span>
+								<input type="text" name="session_key" id="session_key" value="{$user.session_key}" class="textbox" />
+       						</li>
+       						<li>
+        						<span class="item_name" style="width:120px;">thr_session：</span>
+								<input type="text" name="thr_session" id="thr_session" value="{$user.thr_session}" class="textbox" />
+       						</li>
+							<li>
+        						<span class="item_name" style="width:120px;">操作：</span>
+        						<input type="button" id="button" class="link_btn" value="提交" />
+       						</li>
+      					</ul>
+     				</form>
+     			</section>
+ 			</div>
+		</article>
+		<footer class="footer">
+			<p>感谢jQuery、layer、laypage、Validform、UEditor、My97DatePicker、iconfont、Datatables、WebUploaded、icheck、highcharts、bootstrap-Switch<br> Copyright &copy;2015 H-ui.admin v3.0 All Rights Reserved.<br> 本后台系统由<a href="http://www.h-ui.net/" target="_blank" title="H-ui前端框架">H-ui前端框架</a>提供前端技术支持</p>
+		</footer>
+	</div>
+{/block}
+
+{block name="javascript"}
+<!--/请在上方写此页面业务相关的脚本-->
+<script type="text/javascript" src="__STATIC__/lib/webuploader/webuploader/webuploader.min.js"></script>
+<script type="text/javascript">
+$(function(){
+	$("#button").on('click',function(event){
+		var nick_name = $("#nick_name").val().trim();
+		var open_id = $("#open_id").val().trim();
+		var thr_session = $("#thr_session").val().trim();
+		var session_key = $("#session_key").val().trim();
+		var linkman = $("#linkman").val().trim();
+		var wechat_number = $("#wechat_number").val().trim();
+		var phone_number = $("#phone_number").val().trim();
+			if (nick_name&&open_id&&thr_session&&session_key&&linkman&&wechat_number&&phone_number) {
+				$.ajax({
+					type:"POST",
+					url:"{:url('/admin/user/editUser')}",
+					data:$("form").serialize(),
+					dataType: "json",
+					success:function(data) {
+						if (data.status == 1) {
+							layer.msg(data.message,{icon:1,time:2000});
+							setTimeout('window.parent.location.reload()',2000);
+						} else {
+							layer.msg(data.message,{icon:0,time:2000});
+							location.replace(location.href);
+						}
+					},
+					error:function() {
+						layer.msg('编辑失败！',{icon:0,time:2000});
+					}
+				});
+			} else {
+				layer.msg('用户所以信息不能为空！',{icon:0,time:2000});
+				setTimeout('location.replace(location.href);',2000);
+			}
+	});
+});
+</script>
+<script>
+// 初始化Web Uploader
+var uploader = WebUploader.create({
+
+    // 选完文件后，是否自动上传。
+    auto: true,
+
+    // swf文件路径
+    swf: "__STATIC__/lib/webuploader/Uploader.swf",
+
+    // 文件接收服务端。
+    server: "{:url('/admin/user/head_portrait')}",
+
+    // 选择文件的按钮。可选。
+    // 内部根据当前运行是创建，可能是input元素，也可能是flash.
+    pick: '#picker',
+
+    // 只允许选择图片文件。
+    accept: {
+        title: 'Images',
+        extensions: 'gif,jpg,jpeg,bmp,png',
+        mimeTypes: 'image/*'
+    }
+});
+
+// 文件上传成功，给item添加成功class, 用样式标记上传成功。data为后台上传返回的参数
+uploader.on( 'uploadSuccess', function( file ,data) {
+	$('#user').attr('src',data.avatar_url);
+	$('#avatar_url').val(data.avatar_url);
+});
+
+//一般进不来，不用处理
+uploader.on( 'uploadError', function( file,data ) {
+    
+});
+</script>
+{/block}
+
+</body>
+</html>

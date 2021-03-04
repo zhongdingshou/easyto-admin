@@ -1,0 +1,118 @@
+{extend name="public/basis" /}
+{block name="seo"}
+<title>{$title|default='页面标题'}</title>
+<meta name="keywords" content="{$keywords|default='页面关键字'}">
+<meta name="description" content="{$description|default='页面描述'}">
+<link rel="stylesheet" type="text/css" href="__STATIC__/static/h-ui.admin/css/slide.css">
+</head>
+<body>
+{/block}
+{block name="content"}
+	<nav class="breadcrumb">
+		<i class="Hui-iconfont">&#xe67f;</i> 首页 
+		<span class="c-gray en">&gt;</span> 用户管理 
+		<span class="c-gray en">&gt;</span> 用户列表 
+		<a class="btn btn-success radius r" style="line-height:1.6em;margin-top:3px" href="javascript:location.replace(location.href);" title="刷新" >
+			<i class="Hui-iconfont">&#xe68f;</i>
+		</a>
+	</nav>
+	<div class="Hui-article">
+		<article class="cl pd-20">
+			<div class="cl pd-5 bg-1 bk-gray mt-20">
+				<span class="l">
+				</span>
+				<span class="r">共有数据：<strong> {$count}</strong> 条</span>
+			</div>
+			<table class="table table-border table-bordered table-bg">
+				<thead>
+					<tr>
+						<th scope="col" colspan="11">用户信息列表</th>
+					</tr>
+					<tr class="text-c">
+						<th width="40">ID</th>
+						<th width="100">用户名</th>
+						<th width="150">头像</th>
+						<th width="200">open_id</th>
+						<th width="200">session_key</th>
+						<th width="200">thr_session</th>
+						<th width="100">联系人</th>
+						<th width="200">微信号</th>
+						<th width="200">手机号</th>
+						<th width="100">有无认证</th>
+						{eq name="$Think.session.admin_info.permissions" value="0"}
+						<th width="100">操作</th>
+						{/eq}
+					</tr>
+				</thead>
+				<tbody>
+
+				{volist name="users" id="vo"}
+					<tr class="text-c">
+						<td>{$vo.id}</td>
+						<td>{$vo.nick_name}</td>
+						<td><img src="{$vo.avatar_url}" style="width:100px;height:80px;" /></td>
+						<td>{$vo.open_id}</td>
+						<td>{$vo.session_key}</td>
+						<td>{$vo.thr_session}</td>
+						<td>{$vo.linkman}</td>
+						<td>{$vo.wechat_number}</td>
+						<td>{$vo.phone_number}</td>
+						<td>
+							{if($vo.is_approve==1)}
+							<i title="已认证" class="lei" style="color:blue">已认证</i>
+							{else/}
+							<i title="未认证" class="lei" style="color:red">未认证</i>
+							{/if}
+						</td>
+						{eq name="$Think.session.admin_info.permissions" value="0"}
+						<td class="td-manage">
+							<a title="编辑" href="javascript:;" onclick="user_edit('用户编辑','{:url("/admin/user/user_edit",["id"=>$vo["id"]])}','1','800','500')" class="ml-5" style="text-decoration:none">
+								<i class="Hui-iconfont">&#xe6df;</i>
+							</a>
+							<a title="删除" href="javascript:;" onclick="user_del(this,{$vo.id})" class="ml-5" style="text-decoration:none">
+								<i class="Hui-iconfont">&#xe6e2;</i>
+							</a>
+						</td>
+						{/eq}
+					</tr>
+				{/volist}
+				</tbody>
+			</table>
+			<aside class="paging">
+			    {$users->render()}
+		    </aside>
+		</article>
+		<footer class="footer">
+			<p>感谢jQuery、layer、laypage、Validform、UEditor、My97DatePicker、iconfont、Datatables、WebUploaded、icheck、highcharts、bootstrap-Switch<br> Copyright &copy;2015 H-ui.admin v3.0 All Rights Reserved.<br> 本后台系统由<a href="http://www.h-ui.net/" target="_blank" title="H-ui前端框架">H-ui前端框架</a>提供前端技术支持</p>
+		</footer>
+	</div>
+{/block}
+
+{block name="javascript"}
+<!--/请在上方写此页面业务相关的脚本-->
+<script type="text/javascript" src="__STATIC__/lib/My97DatePicker/4.8/WdatePicker.js"></script> 
+<script type="text/javascript" src="__STATIC__/lib/datatables/1.10.0/jquery.dataTables.min.js"></script> 
+<script type="text/javascript" src="__STATIC__/lib/laypage/1.2/laypage.js"></script> 
+<script type="text/javascript">
+/*用户-删除*/
+function user_del(obj,id) {
+	layer.confirm('确认要删除吗？',function(index){
+		//此处请求后台程序，下方是成功后的前台处理……
+		$.get("{:url('/admin/user/deleteUser')}",{id:id});
+		
+		$(obj).parents("tr").remove();
+		window.location.replace(location.href);
+		layer.msg('已删除!',{icon:1,time:1000});
+	});
+}
+
+/*用户-编辑*/
+function user_edit(title,url,id,w,h){
+    $.get(url,{id:id}); //执行控制器中的编辑操作
+	layer_show(title,url,w,h);
+}
+</script>
+{/block}
+
+</body>
+</html>

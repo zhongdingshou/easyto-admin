@@ -1,0 +1,99 @@
+{extend name="public/basis" /}
+{block name="seo"}
+<title>{$title|default='页面标题'}</title>
+<meta name="keywords" content="{$keywords|default='页面关键字'}">
+<meta name="description" content="{$description|default='页面描述'}">
+<link rel="stylesheet" type="text/css" href="__STATIC__/static/h-ui.admin/css/slide.css">
+</head>
+<body>
+{/block}
+{block name="content"}
+	<nav class="breadcrumb">
+		<i class="Hui-iconfont">&#xe67f;</i> 首页 
+		<span class="c-gray en">&gt;</span> 幻灯片管理 
+		<span class="c-gray en">&gt;</span> 幻灯片列表
+		<a class="btn btn-success radius r" style="line-height:1.6em;margin-top:3px" href="javascript:location.replace(location.href);" title="刷新" >
+			<i class="Hui-iconfont">&#xe68f;</i>
+		</a>
+	</nav>
+	<div class="Hui-article">
+		<div class="rt_content">
+		    <div class="page_title">
+		       	<a href="/easyto/public/index.php/admin/slide/slide_add" class="top_rt_btn">添加图片</a>
+		    </div>
+		    <table class="table table-border table-bordered table-bg">
+				<thead>
+					<tr>
+						<th scope="col" colspan="9">幻灯片信息列表</th>
+					</tr>
+					<tr class="text-c">
+						<th width="40">ID</th>
+						<th width="350">缩略图</th>
+						<th width="200">图片标题</th>
+						<th width="50">图片顺序</th>
+						<th width="50">是否展示</th>
+						<th width="50">操作</th>
+					</tr>
+				</thead>
+				<tbody>
+
+				{volist name="slides" id="vo"}
+					<tr class="text-c">
+						<td>{$vo.id}</td>
+						<td><img src="{$vo.slide_url}" width="300" height="150"/></td>
+						<td>{$vo.slide_title}</td>
+						<td>{$vo.slide_order}</td>
+						<td class="td-status">
+							{if ($vo.is_show==1)}
+							<span class="label label-success radius">yes</span>
+							{else /}
+							<span class="label radius">no</span>
+							{/if}
+						</td>
+						<td class="slide_edit">
+							<a title="编辑" href="javascript:;" onclick="slide_edit('幻灯片编辑','{:url("/admin/slide/slide_edit",["id"=>$vo["id"]])}','1','800','500')" class="ml-5" style="text-decoration:none">
+								<i class="Hui-iconfont">&#xe6df;</i>
+							</a>
+							{eq name="$Think.session.admin_info.permissions" value="0"}
+							<a title="删除" href="javascript:;" onclick="slide_del(this,{$vo.id})" class="ml-5" style="text-decoration:none">
+								<i class="Hui-iconfont">&#xe6e2;</i>
+							</a>
+							{/eq}
+				        </td>
+					</tr>
+				{/volist}
+				</tbody>
+			</table>
+			<aside class="paging">
+			    {$slides->render()}
+		    </aside>
+		</div>
+		<footer class="footer">
+			<p>感谢jQuery、layer、laypage、Validform、UEditor、My97DatePicker、iconfont、Datatables、WebUploaded、icheck、highcharts、bootstrap-Switch<br> Copyright &copy;2015 H-ui.admin v3.0 All Rights Reserved.<br> 本后台系统由<a href="http://www.h-ui.net/" target="_blank" title="H-ui前端框架">H-ui前端框架</a>提供前端技术支持</p>
+		</footer>
+	</div>
+{/block}
+
+{block name="javascript"}
+<script type="text/javascript">
+/*幻灯片-删除*/
+function slide_del(obj,id){
+	layer.confirm('确认要删除吗？',function(index){
+		//此处请求后台程序，下方是成功后的前台处理……
+		$.get("{:url('/admin/slide/deleteSlide')}",{id:id});
+		
+		$(obj).parents("tr").remove();
+		layer.msg('已删除!',{icon:1,time:1000});
+	});
+}
+/*幻灯片-编辑*/
+function slide_edit(title,url,id,w,h){
+    $.get(url,{id:id}); //执行控制器中的编辑操作
+	layer_show(title,url,w,h);
+}
+</script>
+
+{/block}
+
+</body>
+</html>

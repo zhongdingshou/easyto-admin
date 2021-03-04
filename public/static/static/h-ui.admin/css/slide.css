@@ -1,0 +1,113 @@
+/*幻灯片列表样式*/
+table.table {
+	width:94%;
+	margin: 20px auto;
+}
+.link_icon {
+	background: #000;
+	font-size:16px;
+	color:#fff;
+	border: 1px solid #ccc;
+	border-radius: 5px 5px 5px 5px;
+	padding: 6px 26px;
+}
+.slide_edit{
+	font-size: 18px;
+}
+
+/*幻灯片上传样式*/
+.rt_content {
+	margin: 20px auto;
+	width: 100%;
+}
+.page_title {
+	width: 90%;
+	height: 30px;
+}
+a.top_rt_btn {
+	float: right;
+	color: #fff;
+	border: 1px solid #ccc;
+	border-radius: 5px 5px 5px 5px;
+	padding: 4px 6px;
+	background-color: green;
+	text-decoration:none;
+}
+.page_title a:hover {
+	background-color: yellow;
+	color:black;
+}
+.rt_content section form.form{
+	border: 1px solid #ccc;
+	width: 80%;
+	margin: 20px auto;
+}
+ul.ulColumn2 {
+	margin: 20px 20px 40px 20px;
+}
+ul.ulColumn2 li{
+	margin-top: 20px;
+}
+.item_name {
+	color:#302B2B;
+	font-size: 16px;
+}
+.textbox{
+	font-size: 14px;
+	height:30px;
+	width:40%;
+	padding-left: 8px;
+	border: 1px solid #ccc;
+	border-radius: 5px;
+}
+.link_btn {
+	color:#000;
+	font-size:16px;
+	border: 1px solid #ccc;
+	border-radius: 5px 5px 5px 5px;
+	padding: 6px 26px;
+	margin-left: 50px; 
+}
+.link_btn:hover {
+	color:#fff;
+	background-color: yellow;
+	-webkit-transition: all 2s ease;
+    -moz-transition: all 2s ease;
+    -o-transition: all 2s ease;
+    transition: all 2s ease;
+}
+
+/*按钮*/
+.paging {
+	margin-left: 20%;
+}
+.paging ul.pagination {
+	height: 38px;
+	color: #fff;
+	font-size: 18px;
+}
+.paging ul.pagination li {
+	color: #ccc;
+	border-radius: 5px 5px 5px 5px;
+	float: left;
+	margin: 2px 4px;
+	background-color: #1667B1;
+}
+.paging ul.pagination li:hover, .paging ul.pagination li:hover a, .paging ul.pagination li.active span{
+	color:#000;
+	background-color: yellow;
+	border-radius: 5px 5px 5px 5px;
+}
+.paging ul.pagination li span:hover {
+	color:#ccc;
+	background-color: green;
+	border-radius: 5px 5px 5px 5px;
+}
+.paging ul.pagination li span {
+	padding: 4px 16px;
+}
+.paging ul.pagination li a {
+	color:#fff;
+	text-decoration:none;
+	padding: 4px 16px;
+}
